@@ -4,6 +4,7 @@
       "plugins": ["istanbul"]
     },
     "commonjs": {
+      "comments": false,
       "presets": [
         ["env", {
           "useBuiltIns": false
