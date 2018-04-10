@@ -5,6 +5,7 @@
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
 - [API Reference](#api-reference)
+- [Debug/logging](#debuglogging)
 - [Contributing](#contributing)
 - [Tests](#tests)
 - [Releasing](#releasing)
@@ -51,6 +52,15 @@ console.log(`Socket is ${socket.isConnected() ? 'connected' : 'disconnected'}`);
   {{>member-index~}}
   {{>members~}}
 {{/module~}}
+
+## Debug/logging
+
+queued-socket.io makes use of [debug](https://github.com/visionmedia/debug).
+To see the output in the console run this in the console:
+
+```js
+localStorage.debug = 'queued-socket.io*';
+```
 
 ## Contributing
 

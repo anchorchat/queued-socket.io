@@ -5,6 +5,7 @@
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
 - [API Reference](#api-reference)
+- [Debug/logging](#debuglogging)
 - [Contributing](#contributing)
 - [Tests](#tests)
 - [Releasing](#releasing)
@@ -208,6 +209,15 @@ Remove a socket event from the socket, when the socket is not connected, add a r
 | --- | --- | --- | --- |
 | event | <code>String</code> |  | The event name that needs to be added to the socket. |
 | priority | <code>Number</code> | <code>2</code> | The priority of the event. |
+
+## Debug/logging
+
+queued-socket.io makes use of [debug](https://github.com/visionmedia/debug).
+To see the output in the console run this in the console:
+
+```js
+localStorage.debug = 'queued-socket.io*';
+```
 
 ## Contributing
 
