@@ -35,7 +35,7 @@ const options = {
 
 const client = socket.connect('http://localhost:5000', options);
 
-console.log(`Socket is ${socket.isConnected() ? 'connected' : 'disconnected'}`)
+console.log(`Socket is ${socket.isConnected() ? 'connected' : 'disconnected'}`);
 ```
 
 ## API Reference
