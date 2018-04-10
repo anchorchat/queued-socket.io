@@ -3,6 +3,7 @@
 > Socket.io client with offline caching
 
 - [Installation](#installation)
+- [Basic Usage](#basic-usage)
 - [API Reference](#api-reference)
 - [Contributing](#contributing)
 - [Tests](#tests)
@@ -15,6 +16,26 @@ Install using [npm](https://www.npmjs.org/):
 
 ```sh
 npm install cached-socket.io
+```
+
+## Basic Usage
+```js
+const socket = require('cached-socket.io');
+
+// Before we have a socket connection, add some events. These will be cached and run after the connection is established.
+socket.on('ping', () => console.log('ping'));
+socket.on('disconnect', () => console.log('disconnected'));
+socket.once('ping', () => console.log('One time ping'));
+socket.emit('authentication', { token: 'loginToken' }, 1);
+
+const options = {
+  path: '/socket',
+  transports: ['websocket']
+};
+
+const client = socket.connect('http://localhost:5000', options);
+
+console.log(`Socket is ${socket.isConnected() ? 'connected' : 'disconnected'}`);
 ```
 
 ## API Reference
