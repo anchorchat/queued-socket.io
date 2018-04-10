@@ -2,6 +2,13 @@
 
 > Socket.io client with offline caching
 
+- [Installation](#installation)
+- [API Reference](#api-reference)
+- [Contributing](#contributing)
+- [Tests](#tests)
+- [Releasing](#releasing)
+- [Support](#support)
+
 ## Installation
 
 Install using [npm](https://www.npmjs.org/):
