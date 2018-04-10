@@ -14,7 +14,6 @@ let client;
  *
  * @returns socket.io client
  *
- *
  * @public
  */
 const getClient = () => client;
