@@ -32,6 +32,17 @@ Please submit all issues and pull requests to the [anchorchat/cached-socket.io](
 
 Run tests using `npm test`.
 
+## Releasing
+
+Make sure your working directory is clean!
+
+    git checkout master && git fetch && git merge origin/master
+    npm run prepare
+    npm version <patch|minor|major> -m '<commit message containing changes for this release>'
+    git push origin master
+    git push --tags
+    npm publish
+
 ## Support
 
 If you have any problem or suggestion please open an issue [here](https://github.com/anchorchat/cached-socket.io/issues).

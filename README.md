@@ -14,9 +14,7 @@ npm install cached-socket.io
 
   Socket module
 
-  Events module
 
-  
 * [socket](#module_socket)
     * [~getClient()](#module_socket..getClient) ⇒
     * [~isConnected()](#module_socket..isConnected) ⇒ <code>Boolean</code>
@@ -112,7 +110,9 @@ Connect to socket.io, if socket is already connected, returns that socket.
 | uri | <code>String</code> | The connection uri of the host. |
 | options | <code>Object</code> | Options object used by socket.io. |
 
-  
+  Events module
+
+
 * [events](#module_events)
     * [~add(event, callback, priority)](#module_events..add)
     * [~once(event, callback, priority)](#module_events..once)
@@ -188,6 +188,17 @@ Please submit all issues and pull requests to the [anchorchat/cached-socket.io](
 ## Tests
 
 Run tests using `npm test`.
+
+## Releasing
+
+Make sure your working directory is clean!
+
+    git checkout master && git fetch && git merge origin/master
+    npm run prepare
+    npm version <patch|minor|major> -m '<commit message containing changes for this release>'
+    git push origin master
+    git push --tags
+    npm publish
 
 ## Support
 
