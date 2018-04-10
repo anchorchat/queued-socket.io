@@ -38,7 +38,7 @@ const isConnected = () => client && client.connected;
  * @public
  */
 const emit = (event, data, priority = 2) => {
-  if (client.connected) {
+  if (client && client.connected) {
     console.log('[Socket event emit]', client.id, event);
     return client.emit(event, data);
   }
