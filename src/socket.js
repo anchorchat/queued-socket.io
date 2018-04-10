@@ -125,10 +125,10 @@ const connect = (uri, options = {}) => {
 
   client.on('connect', () => {
     debug(`socket - connected - ${client.id}`);
-    return queue.runCache(runQueueResult);
+    return queue.runQueue(runQueueResult);
   });
 
-  client.on('ping', () => queue.runCache(runQueueResult));
+  client.on('ping', () => queue.runQueue(runQueueResult));
 
   client.on('disconnect', (reason) => {
     debug(`socket - disconnected - ${client.id} - ${reason}`);
