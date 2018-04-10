@@ -1,6 +1,6 @@
-# cached-socket.io
+# queued-socket.io
 
-> Socket.io client with offline caching
+> Socket.io client with offline queue
 
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
@@ -15,14 +15,14 @@
 Install using [npm](https://www.npmjs.org/):
 
 ```sh
-npm install cached-socket.io
+npm install queued-socket.io
 ```
 
 ## Basic Usage
 ```js
-const socket = require('cached-socket.io');
+const socket = require('queued-socket.io');
 
-// Before we have a socket connection, add some events. These will be cached and run after the connection is established.
+// Before we have a socket connection, add some events. These will be queued and run after the connection is established.
 socket.on('ping', () => console.log('ping'));
 socket.on('disconnect', () => console.log('disconnected'));
 socket.once('ping', () => console.log('One time ping'));
@@ -54,7 +54,7 @@ console.log(`Socket is ${socket.isConnected() ? 'connected' : 'disconnected'}`);
 
 ## Contributing
 
-Please submit all issues and pull requests to the [anchorchat/cached-socket.io](http://github.com/anchorchat/cached-socket.io) repository!
+Please submit all issues and pull requests to the [anchorchat/queued-socket.io](http://github.com/anchorchat/queued-socket.io) repository!
 
 ## Tests
 
@@ -73,4 +73,4 @@ Make sure your working directory is clean!
 
 ## Support
 
-If you have any problem or suggestion please open an issue [here](https://github.com/anchorchat/cached-socket.io/issues).
+If you have any problem or suggestion please open an issue [here](https://github.com/anchorchat/queued-socket.io/issues).

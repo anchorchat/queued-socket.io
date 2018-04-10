@@ -1,7 +1,7 @@
 {
-  "name": "cached-socket.io",
+  "name": "queued-socket.io",
   "version": "1.0.0",
-  "description": "Socket.io client with offline caching",
+  "description": "Socket.io client with offline queue",
   "main": "./dist/index.js",
   "scripts": {
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir dist",
@@ -21,8 +21,8 @@
   ],
   "keywords": [
     "es6",
-    "cache",
-    "caching",
+    "queue",
+    "queuing",
     "socket",
     "socket.io",
     "websocket"

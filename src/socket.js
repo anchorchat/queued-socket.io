@@ -1,9 +1,9 @@
 import io from 'socket.io-client';
 import Debug from 'debug';
 import * as events from './events';
-import * as cache from './cache';
+import * as queue from './queue';
 
-const debug = Debug('cached-socket.io:socket');
+const debug = Debug('queued-socket.io:socket');
 
 /**
  * Socket module
@@ -32,7 +32,7 @@ const getClient = () => client;
 const isConnected = () => client && client.connected;
 
 /**
- * Send an event to the socket, when the socket is not connected, add an emit event to the cache.
+ * Send an event to the socket, when the socket is not connected, add an emit event to the queue.
  *
  * @param {String} event - The event name that needs to be added to the socket.
  * @param {Object} data - The data to send to the socket when the event is triggered.
@@ -46,8 +46,8 @@ const emit = (event, data, priority = 2) => {
     return client.emit(event, data);
   }
 
-  debug(`emit - cache - ${event}`);
-  return cache.add('emit', { event, data }, priority);
+  debug(`emit - queue - ${event}`);
+  return queue.add('emit', { event, data }, priority);
 };
 
 /**
@@ -86,15 +86,15 @@ const off = (event, priority = 2) => events.remove(event, priority);
 const once = (event, callback, priority = 2) => events.once(event, callback, priority);
 
 /**
- * Handle cache items
+ * Handle queue items
  *
- * @param {Object} item - The cache item that is currently being handled.
+ * @param {Object} item - The queue item that is currently being handled.
  * @param {String} item.key - The event key.
- * @param {Object} item.payload - The cached item payload.
+ * @param {Object} item.payload - The queued item payload.
  *
  * @private
  */
-const runCacheResult = ({ key, payload }) => {
+const runQueueResult = ({ key, payload }) => {
   switch (key) {
     case 'add': return events.add(payload.event, payload.callback);
     case 'once': return events.once(payload.event, payload.callback);
@@ -125,15 +125,15 @@ const connect = (uri, options = {}) => {
 
   client.on('connect', () => {
     debug(`socket - connected - ${client.id}`);
-    return cache.runCache(runCacheResult);
+    return queue.runCache(runQueueResult);
   });
 
-  client.on('ping', () => cache.runCache(runCacheResult));
+  client.on('ping', () => queue.runCache(runQueueResult));
 
   client.on('disconnect', (reason) => {
     debug(`socket - disconnected - ${client.id} - ${reason}`);
     events.clear();
-    return cache.flush();
+    return queue.flush();
   });
 
   return client;

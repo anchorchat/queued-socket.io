@@ -3,28 +3,28 @@ import sortBy from 'lodash.sortby';
 import { getClient } from './socket';
 
 /**
- * Caching module
- * @module cache
+ * Queue module
+ * @module queue
  *
  * @private
  */
 
-const cache = new Set();
+const queue = new Set();
 
 /**
- * Clears the cache.
+ * Clears the queue.
  */
-const flush = () => cache.clear();
+const flush = () => queue.clear();
 
 /**
- * Adds an item to cache.
+ * Adds an item to queue.
  *
- * @param {String} key - The event key to add to the cache. Valid keys are: add, remove, clear and emit.
+ * @param {String} key - The event key to add to the queue. Valid keys are: add, remove, clear and emit.
  * @param {Object} payload - The payload of the event.
  * @param {Number} priority=2 - The priority of the event.
  */
 const add = (key, payload, priority = 2) => (
-  cache.add({
+  queue.add({
     key,
     payload,
     priority
@@ -32,19 +32,19 @@ const add = (key, payload, priority = 2) => (
 );
 
 /**
- * Adds an item to cache.
+ * Adds an item to queue.
  *
- * @param {Function} [callback] - The callback event which returns the cached item.
+ * @param {Function} [callback] - The callback event which returns the queued item.
  */
-const runCache = (callback = () => {}) => {
-  if (!cache.size) {
+const runQueue = (callback = () => {}) => {
+  if (!queue.size) {
     return false;
   }
 
   const client = getClient();
 
   if (client.connected) {
-    const items = [...cache.values()];
+    const items = [...queue.values()];
 
     const sortedItems = sortBy(items, 'priority');
 
@@ -59,5 +59,5 @@ const runCache = (callback = () => {}) => {
 export {
   flush,
   add,
-  runCache
+  runQueue
 };

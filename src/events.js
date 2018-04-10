@@ -1,8 +1,8 @@
 import Debug from 'debug';
-import * as cache from './cache';
+import * as queue from './queue';
 import { getClient } from './socket';
 
-const debug = Debug('cached-socket.io:events');
+const debug = Debug('queued-socket.io:events');
 
 /**
  * Events module
@@ -12,7 +12,7 @@ const debug = Debug('cached-socket.io:events');
 const events = new Set();
 
 /**
- * Adds a socket event to the socket, when the socket is not connected, add the add event to the cache.
+ * Adds a socket event to the socket, when the socket is not connected, add the add event to the queue.
  *
  * @param {String} event - The event name that needs to be added to the socket.
  * @param {Function} callback - The callback function that the sockets call when the event is triggered.
@@ -30,13 +30,13 @@ const add = (event, callback, priority = 2) => {
     return events.add(event);
   }
 
-  debug(`add - cache - ${event}`);
+  debug(`add - queue - ${event}`);
 
-  return cache.add('add', { event, callback }, priority);
+  return queue.add('add', { event, callback }, priority);
 };
 
 /**
- * Adds a single run socket event to the socket, when the socket is not connected, add the once event to the cache.
+ * Adds a single run socket event to the socket, when the socket is not connected, add the once event to the queue.
  *
  * @param {String} event - The event name that needs to be added to the socket.
  * @param {Function} callback - The callback function that the sockets call when the event is triggered.
@@ -57,13 +57,13 @@ const once = (event, callback, priority = 2) => {
 
     return events.add(event);
   }
-  debug(`once - cache - ${event}`);
+  debug(`once - queue - ${event}`);
 
-  return cache.add('once', { event, callback }, priority);
+  return queue.add('once', { event, callback }, priority);
 };
 
 /**
- * Remove all socket events from the socket, when the socket is not connected, add the clear event to the cache.
+ * Remove all socket events from the socket, when the socket is not connected, add the clear event to the queue.
  *
  * @param {Number} priority=2 - The priority of the event.
  *
@@ -77,9 +77,9 @@ const clear = (priority = 2) => {
     events.forEach(client.off); // eslint-disable-line lodash/prefer-lodash-method
     events.clear();
   }
-  debug('clear - cache');
+  debug('clear - queue');
 
-  return cache.add('clear', undefined, priority);
+  return queue.add('clear', undefined, priority);
 };
 
 /**
@@ -93,7 +93,7 @@ const clear = (priority = 2) => {
 const get = () => [...events];
 
 /**
- * Remove a socket event from the socket, when the socket is not connected, add a remove event to the cache.
+ * Remove a socket event from the socket, when the socket is not connected, add a remove event to the queue.
  *
  * @param {String} event - The event name that needs to be added to the socket.
  * @param {Number} priority=2 - The priority of the event.
@@ -105,13 +105,12 @@ const remove = (event, priority = 2) => {
 
   if (client && client.connected) {
     debug(`remove - ${event}`);
-    console.log('[Socket event remove]', client.id, event);
     client.off(event);
     return events.delete(event);
   }
-  debug(`remove - cache - ${event}`);
+  debug(`remove - queue - ${event}`);
 
-  return cache.add('remove', { event }, priority);
+  return queue.add('remove', { event }, priority);
 };
 
 export {

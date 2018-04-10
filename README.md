@@ -1,6 +1,6 @@
-# cached-socket.io
+# queued-socket.io
 
-> Socket.io client with offline caching
+> Socket.io client with offline queue
 
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
@@ -15,14 +15,14 @@
 Install using [npm](https://www.npmjs.org/):
 
 ```sh
-npm install cached-socket.io
+npm install queued-socket.io
 ```
 
 ## Basic Usage
 ```js
-const socket = require('cached-socket.io');
+const socket = require('queued-socket.io');
 
-// Before we have a socket connection, add some events. These will be cached and run after the connection is established.
+// Before we have a socket connection, add some events. These will be queued and run after the connection is established.
 socket.on('ping', () => console.log('ping'));
 socket.on('disconnect', () => console.log('disconnected'));
 socket.once('ping', () => console.log('One time ping'));
@@ -71,7 +71,7 @@ Check if the socket is connected
 <a name="module_socket..emit"></a>
 
 ### socket~emit(event, data, priority)
-Send an event to the socket, when the socket is not connected, add an emit event to the cache.
+Send an event to the socket, when the socket is not connected, add an emit event to the queue.
 
 **Kind**: inner method of [<code>socket</code>](#module_socket)  
 **Access**: public  
@@ -151,7 +151,7 @@ Connect to socket.io, if socket is already connected, returns that socket.
 <a name="module_events..add"></a>
 
 ### events~add(event, callback, priority)
-Adds a socket event to the socket, when the socket is not connected, add the add event to the cache.
+Adds a socket event to the socket, when the socket is not connected, add the add event to the queue.
 
 **Kind**: inner method of [<code>events</code>](#module_events)  
 **Access**: public  
@@ -165,7 +165,7 @@ Adds a socket event to the socket, when the socket is not connected, add the add
 <a name="module_events..once"></a>
 
 ### events~once(event, callback, priority)
-Adds a single run socket event to the socket, when the socket is not connected, add the once event to the cache.
+Adds a single run socket event to the socket, when the socket is not connected, add the once event to the queue.
 
 **Kind**: inner method of [<code>events</code>](#module_events)  
 **Access**: public  
@@ -179,7 +179,7 @@ Adds a single run socket event to the socket, when the socket is not connected, 
 <a name="module_events..clear"></a>
 
 ### events~clear(priority)
-Remove all socket events from the socket, when the socket is not connected, add the clear event to the cache.
+Remove all socket events from the socket, when the socket is not connected, add the clear event to the queue.
 
 **Kind**: inner method of [<code>events</code>](#module_events)  
 **Access**: public  
@@ -199,7 +199,7 @@ Retrieve all registered events
 <a name="module_events..remove"></a>
 
 ### events~remove(event, priority)
-Remove a socket event from the socket, when the socket is not connected, add a remove event to the cache.
+Remove a socket event from the socket, when the socket is not connected, add a remove event to the queue.
 
 **Kind**: inner method of [<code>events</code>](#module_events)  
 **Access**: public  
@@ -211,7 +211,7 @@ Remove a socket event from the socket, when the socket is not connected, add a r
 
 ## Contributing
 
-Please submit all issues and pull requests to the [anchorchat/cached-socket.io](http://github.com/anchorchat/cached-socket.io) repository!
+Please submit all issues and pull requests to the [anchorchat/queued-socket.io](http://github.com/anchorchat/queued-socket.io) repository!
 
 ## Tests
 
@@ -230,4 +230,4 @@ Make sure your working directory is clean!
 
 ## Support
 
-If you have any problem or suggestion please open an issue [here](https://github.com/anchorchat/cached-socket.io/issues).
+If you have any problem or suggestion please open an issue [here](https://github.com/anchorchat/queued-socket.io/issues).
