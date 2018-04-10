@@ -1,5 +1,8 @@
+import Debug from 'debug';
 import * as cache from './cache';
 import { getClient } from './socket';
+
+const debug = Debug('cached-socket.io:events');
 
 /**
  * Events module
@@ -21,12 +24,13 @@ const add = (event, callback, priority = 2) => {
   const client = getClient();
 
   if (client && client.connected) {
-    console.log('[Socket event add]', client.id, event);
+    debug(`add - ${event}`);
 
     client.on(event, callback);
     return events.add(event);
   }
-  console.log('[Socket event add] - cache', event);
+
+  debug(`add - cache - ${event}`);
 
   return cache.add('add', { event, callback }, priority);
 };
@@ -44,7 +48,7 @@ const once = (event, callback, priority = 2) => {
   const client = getClient();
 
   if (client && client.connected) {
-    console.log('[Socket event once]', client.id, event);
+    debug(`once - ${event}`);
 
     client.once(event, (data) => {
       events.delete(event);
@@ -53,7 +57,7 @@ const once = (event, callback, priority = 2) => {
 
     return events.add(event);
   }
-  console.log('[Socket event once] - cache', event);
+  debug(`once - cache - ${event}`);
 
   return cache.add('once', { event, callback }, priority);
 };
@@ -69,12 +73,12 @@ const clear = (priority = 2) => {
   const client = getClient();
 
   if (client && client.connected) {
-    console.log('[Socket event clear]', client.id);
+    debug('clear');
     events.forEach(client.off); // eslint-disable-line lodash/prefer-lodash-method
     events.clear();
   }
+  debug('clear - cache');
 
-  console.log('[Socket event clear] - cache');
   return cache.add('clear', undefined, priority);
 };
 
@@ -100,12 +104,13 @@ const remove = (event, priority = 2) => {
   const client = getClient();
 
   if (client && client.connected) {
+    debug(`remove - ${event}`);
     console.log('[Socket event remove]', client.id, event);
     client.off(event);
     return events.delete(event);
   }
+  debug(`remove - cache - ${event}`);
 
-  console.log('[Socket event remove] - cache', event);
   return cache.add('remove', { event }, priority);
 };
 

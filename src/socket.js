@@ -1,6 +1,9 @@
 import io from 'socket.io-client';
+import Debug from 'debug';
 import * as events from './events';
 import * as cache from './cache';
+
+const debug = Debug('cached-socket.io:socket');
 
 /**
  * Socket module
@@ -39,11 +42,11 @@ const isConnected = () => client && client.connected;
  */
 const emit = (event, data, priority = 2) => {
   if (client && client.connected) {
-    console.log('[Socket event emit]', client.id, event);
+    debug(`emit - ${event}`);
     return client.emit(event, data);
   }
 
-  console.log('[Socket event emit] - cache', event);
+  debug(`emit - cache - ${event}`);
   return cache.add('emit', { event, data }, priority);
 };
 
@@ -121,14 +124,14 @@ const connect = (uri, options = {}) => {
   client = io.connect(uri, options);
 
   client.on('connect', () => {
-    console.log('[Socket connected]', client.id);
+    debug(`socket - connected - ${client.id}`);
     return cache.runCache(runCacheResult);
   });
 
   client.on('ping', () => cache.runCache(runCacheResult));
 
   client.on('disconnect', (reason) => {
-    console.log('[Socket disconnect]', reason);
+    debug(`socket - disconnected - ${client.id} - ${reason}`);
     events.clear();
     return cache.flush();
   });
