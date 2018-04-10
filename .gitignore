@@ -1,0 +1,7 @@
+node_modules
+npm-debug.log
+.DS_Store
+dist
+.nyc_output
+coverage
+package-lock.json

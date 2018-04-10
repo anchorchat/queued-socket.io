@@ -1,0 +1,14 @@
+{
+  "env": {
+    "test": {
+      "plugins": ["istanbul"]
+    },
+    "commonjs": {
+      "presets": [
+        ["env", {
+          "useBuiltIns": false
+        }]
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "extends": ["airbnb-base"],
+  "parser": "babel-eslint",
+  "rules": {
+    "comma-dangle": 0,
+    "max-len": ["error", { "ignoreComments": true, "code": 100 }]
+  },
+  "globals": {
+    "Image": true,
+    "window": true,
+    "document": true
+  },
+  "env": {
+    "browser": true,
+    "mocha": true,
+    "node": true
+  }
+}
