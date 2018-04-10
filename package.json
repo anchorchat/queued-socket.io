@@ -1,0 +1,60 @@
+{
+  "name": "cached-socket.io",
+  "version": "1.0.0",
+  "description": "Socket.io client with offline caching",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir dist",
+    "build": "npm run build:commonjs",
+    "clean": "rimraf dist coverage",
+    "docs": "jsdoc2md --template docs/README.hbs --files src/**/*.js > README.md",
+    "eslint": "eslint src test",
+    "prepare": "npm run clean && npm run build",
+    "test": "cross-env BABEL_ENV=commonjs NODE_ENV=test mocha --opts ./mocha.opts",
+    "test:watch": "npm test -- --watch",
+    "test:cov": "cross-env NODE_ENV=test nyc npm test",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "es6",
+    "cache",
+    "caching",
+    "socket",
+    "socket.io",
+    "websocket"
+  ],
+  "author": "Lars Tadema <lars.tadema@anchor.chat>",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^3.1.0",
+    "lodash.foreach": "^4.5.0",
+    "lodash.sortby": "^4.7.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-plugin-istanbul": "^4.1.6",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "codecov": "^3.0.0",
+    "cross-env": "^5.1.4",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.10.0",
+    "expect": "^22.4.3",
+    "istanbul": "^0.4.5",
+    "jsdoc": "^3.5.5",
+    "jsdoc-to-markdown": "^4.0.1",
+    "nyc": "^11.6.0",
+    "rimraf": "^2.6.2",
+    "socket.io-client": "^2.1.0"
+  },
+  "peerDependencies": {
+    "socket.io-client": "^2.0.0"
+  }
+}
