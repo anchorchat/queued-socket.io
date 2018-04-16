@@ -9,10 +9,5 @@
     "Image": true,
     "window": true,
     "document": true
-  },
-  "env": {
-    "browser": true,
-    "mocha": true,
-    "node": true
   }
 }
