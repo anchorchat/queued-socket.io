@@ -9,7 +9,7 @@ const debug = Debug('queued-socket.io:events');
  * @module events
  */
 
-const events = new Set();
+const Events = new Set();
 
 /**
  * Adds a socket event to the socket, when the socket is not connected, add the add event to the queue.
@@ -27,7 +27,7 @@ const add = (event, callback, priority = 2) => {
     debug(`add - ${event}`);
 
     client.on(event, callback);
-    return events.add(event);
+    return Events.add(event);
   }
 
   debug(`add - queue - ${event}`);
@@ -50,12 +50,12 @@ const once = (event, callback, priority = 2) => {
   if (client && client.connected) {
     debug(`once - ${event}`);
 
+    Events.add(event);
+
     client.once(event, (data) => {
-      events.delete(event);
+      Events.delete(event);
       return callback(data);
     });
-
-    return events.add(event);
   }
   debug(`once - queue - ${event}`);
 
@@ -74,8 +74,8 @@ const clear = (priority = 2) => {
 
   if (client && client.connected) {
     debug('clear');
-    events.forEach(client.off); // eslint-disable-line lodash/prefer-lodash-method
-    events.clear();
+    Events.forEach(event => client.off(event)); // eslint-disable-line lodash/prefer-lodash-method
+    return Events.clear();
   }
   debug('clear - queue');
 
@@ -90,7 +90,7 @@ const clear = (priority = 2) => {
  *
  * @public
  */
-const get = () => [...events];
+const get = () => [...Events];
 
 /**
  * Remove a socket event from the socket, when the socket is not connected, add a remove event to the queue.
@@ -106,7 +106,7 @@ const remove = (event, priority = 2) => {
   if (client && client.connected) {
     debug(`remove - ${event}`);
     client.off(event);
-    return events.delete(event);
+    return Events.delete(event);
   }
   debug(`remove - queue - ${event}`);
 
@@ -118,5 +118,6 @@ export {
   clear,
   get,
   once,
-  remove
+  remove,
+  Events
 };

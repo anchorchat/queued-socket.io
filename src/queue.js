@@ -9,12 +9,12 @@ import { getClient } from './socket';
  * @private
  */
 
-const queue = new Set();
+const Queue = new Set();
 
 /**
  * Clears the queue.
  */
-const flush = () => queue.clear();
+const flush = () => Queue.clear();
 
 /**
  * Adds an item to queue.
@@ -24,7 +24,7 @@ const flush = () => queue.clear();
  * @param {Number} priority=2 - The priority of the event.
  */
 const add = (key, payload, priority = 2) => (
-  queue.add({
+  Queue.add({
     key,
     payload,
     priority
@@ -37,14 +37,14 @@ const add = (key, payload, priority = 2) => (
  * @param {Function} [callback] - The callback event which returns the queued item.
  */
 const runQueue = (callback = () => {}) => {
-  if (!queue.size) {
+  if (!Queue.size) {
     return false;
   }
 
   const client = getClient();
 
   if (client.connected) {
-    const items = [...queue.values()];
+    const items = [...Queue.values()];
 
     const sortedItems = sortBy(items, 'priority');
 
@@ -59,5 +59,6 @@ const runQueue = (callback = () => {}) => {
 export {
   flush,
   add,
-  runQueue
+  runQueue,
+  Queue
 };
