@@ -91,10 +91,12 @@ describe('events', () => {
         off: sandbox.spy()
       });
 
+      const event = 'message';
+
       sandbox.spy(queue, 'add');
       sandbox.spy(events, 'clear');
 
-      events.Events.add('message');
+      events.Events.add(event);
 
       events.clear();
 
@@ -112,10 +114,12 @@ describe('events', () => {
         off: sandbox.spy()
       });
 
+      const event = 'message';
+
       sandbox.spy(queue, 'add');
       sandbox.spy(events, 'clear');
 
-      events.Events.add('message');
+      events.Events.add(event);
 
       events.clear();
 
@@ -134,10 +138,12 @@ describe('events', () => {
         off: sandbox.spy()
       });
 
+      const event = 'message';
+
       sandbox.spy(queue, 'add');
       sandbox.spy(events, 'clear');
 
-      events.Events.add('message');
+      events.Events.add(event);
 
       events.clear(1);
 
@@ -162,11 +168,34 @@ describe('events', () => {
     });
   });
 
+  describe('onceCallback', () => {
+    it('should handle onceCallback and remove event', () => {
+      sandbox.stub(socket, 'getClient').returns({
+        connected: true,
+        once: sandbox.spy()
+      });
+
+      sandbox.spy(queue, 'add');
+
+      const event = 'message';
+      const data = {};
+      const callback = sandbox.spy();
+
+      events.Events.add(event);
+
+      events.onceCallback(event, data, callback);
+
+      expect(events.Events.size).to.equal(0);
+      expect(callback).to.have.callCount(1);
+      expect(callback).to.have.been.calledWith(data);
+    });
+  });
+
   describe('once', () => {
     it('should add event to socket when socket is connected', () => {
       sandbox.stub(socket, 'getClient').returns({
         connected: true,
-        once: sinon.stub().returns(events.Events.delete('message'))
+        once: sandbox.spy()
       });
 
       sandbox.spy(queue, 'add');
@@ -180,7 +209,7 @@ describe('events', () => {
 
       expect(client.once).to.have.been.calledWith(event);
       expect(queue.add).to.have.callCount(0);
-      expect(events.Events.size).to.equal(0);
+      expect(events.Events.size).to.equal(1);
     });
 
     it('should add event with default priority to queue when socket is not connected', () => {
@@ -225,6 +254,75 @@ describe('events', () => {
   });
 
   describe('remove', () => {
+    it('should remove event from socket when socket is connected', () => {
+      sandbox.stub(socket, 'getClient').returns({
+        connected: true,
+        on: sandbox.spy(),
+        off: sandbox.spy()
+      });
 
+      const event = 'message';
+
+      sandbox.spy(queue, 'add');
+      sandbox.spy(events, 'clear');
+
+      events.Events.add(event);
+
+      events.remove(event);
+
+      const client = socket.getClient();
+
+      expect(client.off).to.have.been.calledWith(event);
+      expect(queue.add).to.have.callCount(0);
+      expect(events.Events.size).to.equal(0);
+    });
+
+    it('should add clear event with default priority to queue when socket is not connected', () => {
+      sandbox.stub(socket, 'getClient').returns({
+        connected: false,
+        on: sandbox.spy(),
+        off: sandbox.spy()
+      });
+
+      const event = 'message';
+
+      sandbox.spy(queue, 'add');
+      sandbox.spy(events, 'clear');
+
+      events.Events.add(event);
+
+      events.remove(event);
+
+      const client = socket.getClient();
+
+      expect(client.off).to.have.callCount(0);
+      expect(queue.add).to.have.callCount(1);
+      expect(queue.add).to.have.been.calledWith('remove', { event }, 2);
+      expect(events.Events.size).to.equal(1);
+    });
+
+    it('should add clear event with priority to queue when socket is not connected', () => {
+      sandbox.stub(socket, 'getClient').returns({
+        connected: false,
+        on: sandbox.spy(),
+        off: sandbox.spy()
+      });
+
+      const event = 'message';
+
+      sandbox.spy(queue, 'add');
+      sandbox.spy(events, 'clear');
+
+      events.Events.add(event);
+
+      events.remove(event, 1);
+
+      const client = socket.getClient();
+
+      expect(client.off).to.have.callCount(0);
+      expect(queue.add).to.have.callCount(1);
+      expect(queue.add).to.have.been.calledWith('remove', { event }, 1);
+      expect(events.Events.size).to.equal(1);
+    });
   });
 });
