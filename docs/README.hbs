@@ -23,7 +23,7 @@ npm install queued-socket.io
 ```js
 const socket = require('queued-socket.io');
 
-// Before we have a socket connection, add some events. These will be queued and run after the connection is established.
+// Before there is a socket connection, add events. These will be queued and run after the connection is established.
 socket.on('ping', () => console.log('ping'));
 socket.on('disconnect', () => console.log('disconnected'));
 socket.once('ping', () => console.log('One time ping'));
