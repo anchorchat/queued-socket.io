@@ -1,7 +1,13 @@
 {
   "env": {
     "test": {
-      "plugins": ["istanbul"]
+      "plugins": ["istanbul"],
+      "comments": false,
+      "presets": [
+        ["env", {
+          "useBuiltIns": false
+        }]
+      ]
     },
     "commonjs": {
       "comments": false,
