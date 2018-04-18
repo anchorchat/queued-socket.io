@@ -32,7 +32,7 @@ const add = (key, payload, priority = 2) => (
 );
 
 /**
- * Adds an item to queue.
+ * Return queued items and clear afterwards.
  *
  * @param {Function} [callback] - The callback event which returns the queued item.
  */
@@ -43,8 +43,8 @@ const runQueue = (callback = () => {}) => {
 
   const client = getClient();
 
-  if (client.connected) {
-    const items = [...Queue.values()];
+  if (client && client.connected) {
+    const items = [...Queue];
 
     const sortedItems = sortBy(items, 'priority');
 

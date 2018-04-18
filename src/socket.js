@@ -29,7 +29,7 @@ const getClient = () => client;
  *
  * @public
  */
-const isConnected = () => client && client.connected;
+const isConnected = () => Boolean(client && client.connected);
 
 /**
  * Send an event to the socket, when the socket is not connected, add an emit event to the queue.
@@ -94,7 +94,7 @@ const once = (event, callback, priority = 2) => events.once(event, callback, pri
  *
  * @private
  */
-const runQueueResult = ({ key, payload }) => {
+const runQueueResult = ({ key, payload = {} } = {}) => {
   switch (key) {
     case 'add': return events.add(payload.event, payload.callback);
     case 'once': return events.once(payload.event, payload.callback);
@@ -104,6 +104,39 @@ const runQueueResult = ({ key, payload }) => {
     default:
       return false;
   }
+};
+
+/**
+ * onConnect
+ *
+ * @private
+ */
+const onConnect = () => {
+  debug(`socket - connected - ${client.id}`);
+  return queue.runQueue(runQueueResult);
+};
+
+/**
+ * onPing
+ *
+ * @private
+ */
+const onPing = () => {
+  debug(`socket - ping - ${client.id}`);
+  return queue.runQueue(runQueueResult);
+};
+
+/**
+ * onDisconnect
+ *
+ * @param {String} reason - Reason of the disconnect.
+ *
+ * @private
+ */
+const onDisconnect = (reason) => {
+  debug(`socket - disconnected - ${client.id} - ${reason}`);
+  events.clear();
+  return queue.flush();
 };
 
 /**
@@ -117,35 +150,43 @@ const runQueueResult = ({ key, payload }) => {
  * @public
  */
 const connect = (uri, options = {}) => {
+  if (!uri) {
+    throw new Error('Please specify connection uri for socket');
+  }
+
   if (client && client.connected) {
     return client;
   }
 
   client = io.connect(uri, options);
 
-  client.on('connect', () => {
-    debug(`socket - connected - ${client.id}`);
-    return queue.runQueue(runQueueResult);
-  });
-
-  client.on('ping', () => queue.runQueue(runQueueResult));
-
-  client.on('disconnect', (reason) => {
-    debug(`socket - disconnected - ${client.id} - ${reason}`);
-    events.clear();
-    return queue.flush();
-  });
+  client.on('connect', onConnect);
+  client.on('ping', onPing);
+  client.on('disconnect', onDisconnect);
 
   return client;
 };
 
+const disconnect = () => {
+  if (client && client.disconnect) {
+    client.disconnect();
+  }
+
+  client = undefined;
+};
+
 export {
   connect,
+  disconnect,
   emit,
   events,
   getClient,
   isConnected,
   off,
   on,
-  once
+  onConnect,
+  onDisconnect,
+  onPing,
+  once,
+  runQueueResult
 };

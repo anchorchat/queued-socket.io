@@ -36,6 +36,20 @@ const add = (event, callback, priority = 2) => {
 };
 
 /**
+ * onceCallback
+ *
+ * @param {String} event - The event name that needs to be removed.
+ * @param {Any} data - Returned value from socket event.
+ * @param {Function} callback - The callback function that the sockets call when the event is triggered.
+ *
+ * @private
+ */
+const onceCallback = (event, data, callback) => {
+  Events.delete(event);
+  return callback(data);
+};
+
+/**
  * Adds a single run socket event to the socket, when the socket is not connected, add the once event to the queue.
  *
  * @param {String} event - The event name that needs to be added to the socket.
@@ -52,10 +66,7 @@ const once = (event, callback, priority = 2) => {
 
     Events.add(event);
 
-    client.once(event, (data) => {
-      Events.delete(event);
-      return callback(data);
-    });
+    return client.once(event, data => onceCallback(event, data, callback));
   }
   debug(`once - queue - ${event}`);
 
@@ -119,5 +130,6 @@ export {
   get,
   once,
   remove,
+  onceCallback,
   Events
 };
