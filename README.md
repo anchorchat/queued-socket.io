@@ -1,4 +1,7 @@
 # queued-socket.io
+[![Build Status](https://travis-ci.org/anchorchat/queued-socket.io.svg?branch=master)](https://travis-ci.org/anchorchat/queued-socket.io)
+[![npm version](https://badge.fury.io/js/queued-socket.io.svg)](https://badge.fury.io/js/queued-socket.io)
+[![Coverage Status](https://img.shields.io/codecov/c/github/anchorchat/queued-socket.io/master.svg)](https://codecov.io/gh/anchorchat/queued-socket.io/)
 
 > Socket.io client with offline queue
 
@@ -12,8 +15,9 @@
 - [Support](#support)
 
 ## Installation
-
 Install using [npm](https://www.npmjs.org/):
+
+[![NPM](https://nodei.co/npm/anchor-ui.png)](https://nodei.co/npm/anchor-ui/)
 
 ```sh
 npm install queued-socket.io
