@@ -17,7 +17,7 @@
 ## Installation
 Install using [npm](https://www.npmjs.org/):
 
-[![NPM](https://nodei.co/npm/anchor-ui.png)](https://nodei.co/npm/anchor-ui/)
+[![NPM](https://nodei.co/npm/queued-socket.io.png)](https://nodei.co/npm/queued-socket.io/)
 
 ```sh
 npm install queued-socket.io
