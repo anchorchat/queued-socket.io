@@ -148,16 +148,24 @@ describe('queue', () => {
         priority: 1
       };
 
+      const item3 = {
+        key: 'message2',
+        payload: {},
+        priority: 3
+      };
+
       queue.Queue.add(item1);
       queue.Queue.add(item2);
+      queue.Queue.add(item3);
 
       const callback = sandbox.spy();
 
       queue.runQueue(callback);
 
-      expect(callback).to.have.callCount(2);
+      expect(callback).to.have.callCount(3);
       expect(callback.firstCall.args[0]).to.equal(item2);
       expect(callback.secondCall.args[0]).to.equal(item1);
+      expect(callback.thirdCall.args[0]).to.equal(item3);
       expect(queue.Queue.size).to.equal(0);
     });
   });
