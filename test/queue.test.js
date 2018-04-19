@@ -149,7 +149,7 @@ describe('queue', () => {
       };
 
       const item3 = {
-        key: 'message2',
+        key: 'message3',
         payload: {},
         priority: 3
       };
