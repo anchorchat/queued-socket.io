@@ -1,8 +1,8 @@
 {
   "name": "queued-socket.io",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Socket.io client with offline queue",
-  "main": "./dist/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir dist",
     "build": "npm run build:commonjs",
@@ -14,6 +14,13 @@
     "test:watch": "npm run test -- --watch",
     "test:cov": "nyc npm test",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anchorchat/queued-socket.io.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anchorchat/queued-socket.io/issues"
   },
   "files": [
     "dist",
