@@ -30,9 +30,7 @@
   "author": "Lars Tadema <lars.tadema@anchor.chat>",
   "license": "MIT",
   "dependencies": {
-    "debug": "^3.1.0",
-    "lodash.foreach": "^4.5.0",
-    "lodash.sortby": "^4.7.0"
+    "debug": "^3.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
