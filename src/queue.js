@@ -1,5 +1,3 @@
-import forEach from 'lodash.foreach';
-import sortBy from 'lodash.sortby';
 import { getClient } from './socket';
 
 /**
@@ -46,9 +44,19 @@ const runQueue = (callback = () => {}) => {
   if (client && client.connected) {
     const items = [...Queue];
 
-    const sortedItems = sortBy(items, 'priority');
+    const sortedItems = items.sort((a, b) => {
+      if (a.priority < b.priority) {
+        return -1;
+      }
 
-    forEach(sortedItems, callback);
+      if (a.priority > b.priority) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+    sortedItems.forEach(callback);
 
     return flush();
   }
