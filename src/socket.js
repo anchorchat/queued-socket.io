@@ -167,6 +167,11 @@ const connect = (uri, options = {}) => {
   return client;
 };
 
+/**
+ * Disconnect from socket
+ *
+ * @public
+ */
 const disconnect = () => {
   if (client && client.disconnect) {
     client.disconnect();
