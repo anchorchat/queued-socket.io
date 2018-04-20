@@ -56,6 +56,7 @@ console.log(`Socket is ${socket.isConnected() ? 'connected' : 'disconnected'}`);
     * [~off(event, priority)](#module_socket..off)
     * [~once(event, callback, priority)](#module_socket..once) ⇒
     * [~connect(uri, options)](#module_socket..connect) ⇒
+    * [~disconnect()](#module_socket..disconnect)
 
 <a name="module_socket..getClient"></a>
 
@@ -143,6 +144,13 @@ Connect to socket.io, if socket is already connected, returns that socket.
 | uri | <code>String</code> | The connection uri of the host. |
 | options | <code>Object</code> | Options object used by socket.io. |
 
+<a name="module_socket..disconnect"></a>
+
+### socket~disconnect()
+Disconnect from socket
+
+**Kind**: inner method of [<code>socket</code>](#module_socket)  
+**Access**: public  
   Events module
 
 
