@@ -323,7 +323,7 @@ describe('socket', () => {
     });
   });
 
-  describe('onPing', () => {
+  describe('onReconnect', () => {
     it('should call runQueue', () => {
       sandbox.spy(queue, 'runQueue');
 
@@ -337,7 +337,7 @@ describe('socket', () => {
 
       socket.connect('test');
 
-      socket.onPing();
+      socket.onReconnect();
 
       expect(queue.runQueue).to.have.callCount(1);
       expect(queue.runQueue).to.have.been.calledWithExactly(socket.runQueueResult);
