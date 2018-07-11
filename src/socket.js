@@ -117,12 +117,12 @@ const onConnect = () => {
 };
 
 /**
- * onPing
+ * onReconnect
  *
  * @private
  */
-const onPing = () => {
-  debug(`socket - ping - ${client.id}`);
+const onReconnect = () => {
+  debug(`socket - reconnect - ${client.id}`);
   return queue.runQueue(runQueueResult);
 };
 
@@ -161,7 +161,7 @@ const connect = (uri, options = {}) => {
   client = io.connect(uri, options);
 
   client.on('connect', onConnect);
-  client.on('ping', onPing);
+  client.on('reconnect', onReconnect);
   client.on('disconnect', onDisconnect);
 
   return client;
@@ -186,7 +186,7 @@ export {
   on,
   onConnect,
   onDisconnect,
-  onPing,
+  onReconnect,
   once,
   runQueueResult
 };
