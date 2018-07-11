@@ -271,7 +271,7 @@ describe('socket', () => {
       expect(dummyClient.on).to.have.callCount(3);
 
       expect(dummyClient.on.firstCall).to.have.been.calledWith('connect', socket.onConnect);
-      expect(dummyClient.on.secondCall).to.have.been.calledWith('ping', socket.onPing);
+      expect(dummyClient.on.secondCall).to.have.been.calledWith('reconnect', socket.onReconnect);
       expect(dummyClient.on.thirdCall).to.have.been.calledWith('disconnect', socket.onDisconnect);
       expect(client).to.equal(dummyClient);
     });
@@ -323,7 +323,7 @@ describe('socket', () => {
     });
   });
 
-  describe('onPing', () => {
+  describe('onReconnect', () => {
     it('should call runQueue', () => {
       sandbox.spy(queue, 'runQueue');
 
@@ -337,7 +337,7 @@ describe('socket', () => {
 
       socket.connect('test');
 
-      socket.onPing();
+      socket.onReconnect();
 
       expect(queue.runQueue).to.have.callCount(1);
       expect(queue.runQueue).to.have.been.calledWithExactly(socket.runQueueResult);

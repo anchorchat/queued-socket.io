@@ -1,6 +1,6 @@
 {
   "name": "queued-socket.io",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Socket.io client with offline queue",
   "main": "dist/index.js",
   "scripts": {
