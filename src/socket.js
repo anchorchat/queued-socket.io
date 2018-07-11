@@ -1,8 +1,9 @@
 import io from 'socket.io-client';
+import Debug from 'debug';
 import * as events from './events';
 import * as queue from './queue';
 
-const debug = require('debug')('queued-socket.io:socket');
+const debug = Debug('queued-socket.io:socket');
 
 /**
  * Socket module
