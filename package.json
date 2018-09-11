@@ -1,6 +1,6 @@
 {
   "name": "queued-socket.io",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Socket.io client with offline queue",
   "main": "dist/index.js",
   "scripts": {
@@ -37,7 +37,7 @@
   "author": "Lars Tadema <lars.tadema@anchor.chat>",
   "license": "MIT",
   "dependencies": {
-    "debug": "3.2.1"
+    "debug": "3.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
